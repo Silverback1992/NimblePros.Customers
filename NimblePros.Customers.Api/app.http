@@ -1,0 +1,48 @@
+@hostname=localhost
+@port=7154
+@host={{hostname}}:{{port}}
+
+GET https://{{host}}/customers
+Accept: application/json
+
+###
+
+@customerId=aab80f69-c6b9-4d68-bcfa-e71994680475
+
+GET https://{{host}}/customers/{{customerId}}
+Accept: application/json
+
+###
+
+POST https://{{host}}/customers
+Accept: application/json
+Content-Type: application/json
+{
+    "companyName": "NimblePros"
+}
+
+
+###
+
+@customerIdToUpdate=aab80f69-c6b9-4d68-bcfa-e71994680475
+
+PUT https://{{host}}/customers/{{customerIdToUpdate}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "companyName": "asd"
+}
+
+###
+
+@customerIdToDelete=aab80f69-c6b9-4d68-bcfa-e71994680475
+
+DELETE https://{{host}}/customers/{{customerIdToDelete}}
+Accept: application/json
+
+###
+
+GET https://{{host}}/brewcoffee
+
+###
