@@ -9,8 +9,6 @@ public static class CustomerEndpoints
     {
         var _customerGroup = app.MapGroup("/customers");
 
-        var _customerGroupWithValidation = _customerGroup.MapGroup("/");
-
         _customerGroup.MapGet("/", async (CustomerData data) =>
         {
             var customers = await data.ListAsync();
@@ -25,7 +23,7 @@ public static class CustomerEndpoints
         )
         .WithName("GetCustomerById");
 
-        _customerGroupWithValidation.MapPost("/", async (CustomerRequest request, CustomerData data) =>
+        _customerGroup.MapPost("/", async (CustomerRequest request, CustomerData data) =>
         {
             var customer = new Customer(Guid.NewGuid(), request.CompanyName, request.Projects);
             await data.AddAsync(customer);
@@ -33,7 +31,7 @@ public static class CustomerEndpoints
         })
         .WithName("AddCustomer");
 
-        _customerGroupWithValidation.MapPut("/{id:guid}",
+        _customerGroup.MapPut("/{id:guid}",
             async Task<Results<Ok<Customer>, NotFound, ValidationProblem>> (Guid id, CustomerRequest request, CustomerData data) =>
             {
                 var existingCustomer = await data.GetByIdAsync(id);
