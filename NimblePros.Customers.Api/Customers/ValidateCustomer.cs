@@ -1,5 +1,8 @@
-using NimblePros.Customers.Api.Customers;
+﻿using NimblePros.Customers.Api.Customers;
 
+/// <summary>
+/// Historically here, nothing uses it, don't add. You could use validation like this as well if you wanted to with AddEndpointFilter at the endpoints.
+/// </summary>
 public class ValidateCustomer : IEndpointFilter
 {
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)

@@ -9,8 +9,7 @@ public static class CustomerEndpoints
     {
         var _customerGroup = app.MapGroup("/customers");
 
-        var _customerGroupWithValidation = _customerGroup.MapGroup("/")
-            .WithParameterValidation();
+        var _customerGroupWithValidation = _customerGroup.MapGroup("/");
 
         _customerGroup.MapGet("/", async (CustomerData data) =>
         {
@@ -28,7 +27,7 @@ public static class CustomerEndpoints
 
         _customerGroupWithValidation.MapPost("/", async (CustomerRequest request, CustomerData data) =>
         {
-            var customer = new Customer(Guid.NewGuid(), request.CompanyName, []);
+            var customer = new Customer(Guid.NewGuid(), request.CompanyName, request.Projects);
             await data.AddAsync(customer);
             return Results.Created($"/customers/{customer.Id}", customer);
         })
@@ -76,7 +75,7 @@ public record CustomerRequest : IValidatableObject
 {
     [Required]
     [MinLength(10)]
-    public required string CompanyName { get; init; }
+    public string CompanyName { get; init; } = string.Empty;
     public List<Project> Projects { get; init; } = [];
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
