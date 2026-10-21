@@ -26,7 +26,7 @@ public static class CustomerEndpoints
         )
         .WithName("GetCustomerById");
 
-        _customerGroupWithValidation.MapPost("/", async (CreateCustomerRequest request, CustomerData data) =>
+        _customerGroupWithValidation.MapPost("/", async (CustomerRequest request, CustomerData data) =>
         {
             var customer = new Customer(Guid.NewGuid(), request.CompanyName, []);
             await data.AddAsync(customer);
@@ -35,7 +35,7 @@ public static class CustomerEndpoints
         .WithName("AddCustomer");
 
         _customerGroupWithValidation.MapPut("/{id:guid}",
-            async Task<Results<Ok<Customer>, NotFound, ValidationProblem>> (Guid id, UpdateCustomerRequest request, CustomerData data) =>
+            async Task<Results<Ok<Customer>, NotFound, ValidationProblem>> (Guid id, CustomerRequest request, CustomerData data) =>
             {
                 var existingCustomer = await data.GetByIdAsync(id);
 
@@ -72,27 +72,13 @@ public static class CustomerEndpoints
 public record Customer(Guid Id, string CompanyName, List<Project> Projects);
 public record Project(Guid Id, string ProjectName, Guid CustomerId);
 
-public record CreateCustomerRequest : IValidatableObject
+public record CustomerRequest : IValidatableObject
 {
     [Required]
     [MinLength(10)]
-    public string CompanyName { get; init; }
-
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-    {
-        if (CompanyName == "NimblePros")
-        {
-            yield return new ValidationResult("Company name cannot be 'NimblePros'.", [nameof(CompanyName)]);
-        }
-    }
-}
-
-public record UpdateCustomerRequest : IValidatableObject
-{
-    [Required]
-    [MinLength(10)]
-    public string CompanyName { get; init; }
+    public required string CompanyName { get; init; }
     public List<Project> Projects { get; init; } = [];
+
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (CompanyName == "NimblePros")
