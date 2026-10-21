@@ -1,5 +1,4 @@
-using NimblePros.Customers.Api.Customers;
-using System.ComponentModel.DataAnnotations;
+﻿using NimblePros.Customers.Api.Customers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +20,6 @@ app.UseHttpsRedirection();
 
 app.MapCustomerEndpoints();
 
-app.MapBrewCoffe();
+app.MapBrewCoffee();
 
 app.Run();

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NimblePros.Customers.Api.Customers;
 
-public static class CustomerEndpointscs
+public static class CustomerEndpoints
 {
     public static void MapCustomerEndpoints(this WebApplication app)
     {
@@ -28,9 +28,9 @@ public static class CustomerEndpointscs
 
         _customerGroupWithValidation.MapPost("/", async (CreateCustomerRequest request, CustomerData data) =>
         {
-            var actualCustomer = new Customer(Guid.NewGuid(), request.CompanyName, []);
-            await data.AddAsync(actualCustomer);
-            return Results.Created($"/customers/{actualCustomer.Id}", actualCustomer);
+            var customer = new Customer(Guid.NewGuid(), request.CompanyName, []);
+            await data.AddAsync(customer);
+            return Results.Created($"/customers/{customer.Id}", customer);
         })
         .WithName("AddCustomer");
 

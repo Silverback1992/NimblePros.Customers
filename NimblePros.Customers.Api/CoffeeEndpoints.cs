@@ -1,6 +1,6 @@
-public static class CoffeeEndpoints
+﻿public static class CoffeeEndpoints
 {
-    public static void MapBrewCoffe(this WebApplication app)
+    public static void MapBrewCoffee(this WebApplication app)
     {
         app.MapGet("/brewcoffee", (HttpResponse response) =>
         {
