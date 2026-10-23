@@ -12,4 +12,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NimblePros.Customers.Application\NimblePros.Customers.Application.csproj" />
+    <ProjectReference Include="..\NimblePros.Customers.Domain\NimblePros.Customers.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

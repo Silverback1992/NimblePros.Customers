@@ -1,4 +1,6 @@
 ﻿using NimblePros.Customers.Api.Customers;
+using NimblePros.Customers.Application;
+using NimblePros.Customers.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddSingleton<CustomerData>();
 builder.Services.AddValidation();
+builder.Services.AddTransient<IEmailMessageFactory, EmailMessageFactory>();
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddTransient<IEmailSenderService, ConsoleOnlyEmailSenderService>();
+}
+else
+{
+    builder.Services.AddTransient<IEmailSenderService, MailKitEmailSenderService>();
+}
+builder.Services.AddTransient<ICustomerEmailService, CustomerEmailService>();
 
 var app = builder.Build();
 

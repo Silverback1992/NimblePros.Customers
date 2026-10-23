@@ -18,7 +18,8 @@ POST https://{{host}}/customers
 Accept: application/json
 Content-Type: application/json
 {
-    "companyName": "NimblePros"
+    "companyName": "NimbleProsaaaaaaaaaaa",
+    "emailAddress": "contact@nimblepros.com"
 }
 
 

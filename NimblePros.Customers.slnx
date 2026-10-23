@@ -1,3 +1,8 @@
 <Solution>
-  <Project Path="NimblePros.Customers.Api/NimblePros.Customers.Api.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/NimblePros.Customers.Api/NimblePros.Customers.Api.csproj" />
+    <Project Path="src/NimblePros.Customers.Application/NimblePros.Customers.Application.csproj" Id="074d1aab-cf24-4f46-9516-08e3652ec02d" />
+    <Project Path="src/NimblePros.Customers.Domain/NimblePros.Customers.Domain.csproj" Id="6bc120c4-4dd9-4139-b633-613b76359b4e" />
+  </Folder>
+  <Folder Name="/test/" />
 </Solution>

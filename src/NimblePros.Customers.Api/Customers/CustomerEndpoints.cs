@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using NimblePros.Customers.Application;
+using NimblePros.Customers.Application.Interfaces;
+using NimblePros.Customers.Domain;
 using System.ComponentModel.DataAnnotations;
 
 namespace NimblePros.Customers.Api.Customers;
@@ -23,9 +26,14 @@ public static class CustomerEndpoints
         )
         .WithName("GetCustomerById");
 
-        _customerGroup.MapPost("/", async (CustomerRequest request, CustomerData data) =>
+        _customerGroup.MapPost("/", async (CustomerRequest request, 
+                                           CustomerData data,
+                                           ICustomerEmailService customerEmailService) =>
         {
-            var customer = new Customer(Guid.NewGuid(), request.CompanyName, request.Projects);
+            var customer = new Customer(Guid.NewGuid(), request.CompanyName, request.EmailAddress, request.Projects);
+
+            await customerEmailService.SendWelcomeEmail(customer);
+
             await data.AddAsync(customer);
             return Results.Created($"/customers/{customer.Id}", customer);
         })
@@ -66,14 +74,17 @@ public static class CustomerEndpoints
     }
 }
 
-public record Customer(Guid Id, string CompanyName, List<Project> Projects);
-public record Project(Guid Id, string ProjectName, Guid CustomerId);
+
+
 
 public record CustomerRequest : IValidatableObject
 {
     [Required]
     [MinLength(10)]
     public string CompanyName { get; init; } = string.Empty;
+    [Required]
+    [MinLength(10)]
+    public string EmailAddress { get; init; } = string.Empty;
     public List<Project> Projects { get; init; } = [];
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -1,4 +1,6 @@
-﻿namespace NimblePros.Customers.Api.Customers;
+﻿using NimblePros.Customers.Domain;
+
+namespace NimblePros.Customers.Api.Customers;
 
 public class CustomerData
 {
@@ -9,12 +11,12 @@ public class CustomerData
     public CustomerData()
     {
         _customers = [
-            new(_customer1Id, "Acme Corporation",
+            new(_customer1Id, "Acme Corporation", "contact@acme.com",
             [
                 new Project(Guid.NewGuid(), "Project A", Guid.NewGuid()),
                 new Project(Guid.NewGuid(), "Project B", Guid.NewGuid())
             ]),
-            new(_customer2Id, "Globex Corporation",
+            new(_customer2Id, "Globex Corporation", "contact@globex.com",
             [
                 new Project(Guid.NewGuid(), "Project C", Guid.NewGuid()),
                 new Project(Guid.NewGuid(), "Project D", Guid.NewGuid())
