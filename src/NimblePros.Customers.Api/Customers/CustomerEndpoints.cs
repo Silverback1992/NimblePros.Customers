@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
-using NimblePros.Customers.Application;
 using NimblePros.Customers.Application.Interfaces;
 using NimblePros.Customers.Domain;
-using System.ComponentModel.DataAnnotations;
 
 namespace NimblePros.Customers.Api.Customers;
 
@@ -26,7 +24,7 @@ public static class CustomerEndpoints
         )
         .WithName("GetCustomerById");
 
-        _customerGroup.MapPost("/", async (CustomerRequest request, 
+        _customerGroup.MapPost("/", async (CustomerRequest request,
                                            CustomerData data,
                                            ICustomerEmailService customerEmailService) =>
         {
@@ -71,27 +69,5 @@ public static class CustomerEndpoints
             return TypedResults.NoContent();
         })
         .WithName("DeleteCustomer");
-    }
-}
-
-
-
-
-public record CustomerRequest : IValidatableObject
-{
-    [Required]
-    [MinLength(10)]
-    public string CompanyName { get; init; } = string.Empty;
-    [Required]
-    [MinLength(10)]
-    public string EmailAddress { get; init; } = string.Empty;
-    public List<Project> Projects { get; init; } = [];
-
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-    {
-        if (CompanyName == "NimblePros")
-        {
-            yield return new ValidationResult("Company name cannot be 'NimblePros'.", [nameof(CompanyName)]);
-        }
     }
 }
