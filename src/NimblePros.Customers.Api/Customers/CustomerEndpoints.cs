@@ -8,13 +8,15 @@ public static class CustomerEndpoints
 {
     public static void MapCustomerEndpoints(this WebApplication app)
     {
-        var _customerGroup = app.MapGroup("/customers");
+        var _customerGroup = app.MapGroup("/customers").WithTags("Customers");
 
         _customerGroup.MapGet("/", async (CustomerData data) =>
         {
             var customers = await data.ListAsync();
             return TypedResults.Ok(customers);
         })
+        .WithSummary("Retrieves a list of all customers.")
+        .WithDescription("derp.")
         .WithName("ListCustomers");
 
         _customerGroup.MapGet("/{id:guid}", async Task<Results<Ok<Customer>, NotFound>> (Guid id, CustomerData data) =>
@@ -35,6 +37,8 @@ public static class CustomerEndpoints
             await data.AddAsync(customer);
             return Results.Created($"/customers/{customer.Id}", customer);
         })
+        .Produces<Customer>(StatusCodes.Status201Created)
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
         .WithName("AddCustomer");
 
         _customerGroup.MapPut("/{id:guid}",
@@ -56,6 +60,7 @@ public static class CustomerEndpoints
                 await data.UpdateAsync(id, customerToUpdate);
                 return TypedResults.Ok(customerToUpdate);
             })
+        .ProducesProblem(StatusCodes.Status404NotFound)
         .WithName("UpdateCustomer");
 
         _customerGroup.MapDelete("/{id:guid}", async Task<Results<NoContent, NotFound>> (Guid id, CustomerData data) =>
@@ -68,6 +73,7 @@ public static class CustomerEndpoints
             await data.DeleteAsync(id);
             return TypedResults.NoContent();
         })
+        .ProducesProblem(StatusCodes.Status404NotFound)
         .WithName("DeleteCustomer");
     }
 }
