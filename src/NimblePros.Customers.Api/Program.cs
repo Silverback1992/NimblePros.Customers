@@ -4,12 +4,13 @@ using NimblePros.Customers.Api.Customers;
 using NimblePros.Customers.Application;
 using NimblePros.Customers.Application.Interfaces;
 using NimblePros.Customers.Domain;
+using NimblePros.Customers.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add EF Core servoces to the container.
+// Add EF Core services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<CustomerDbContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(connectionString));
 
 // Add services to the container.

@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NimblePros.Customers.Application\NimblePros.Customers.Application.csproj" />
     <ProjectReference Include="..\NimblePros.Customers.Domain\NimblePros.Customers.Domain.csproj" />
+    <ProjectReference Include="..\NimblePros.Customers.Infrastructure\NimblePros.Customers.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
