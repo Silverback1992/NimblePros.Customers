@@ -11,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add EF Core services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseSqlite(connectionString,
+        sqlite => sqlite.MigrationsAssembly("NimblePros.Customers.Infrastructure.Migrations")));
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
