@@ -1,6 +1,7 @@
 ﻿using NimblePros.Customers.Api.Customers;
 using NimblePros.Customers.Application;
 using NimblePros.Customers.Application.Interfaces;
+using NimblePros.Customers.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,9 @@ else
     builder.Services.AddTransient<IEmailSenderService, MailKitEmailSenderService>();
 }
 builder.Services.AddTransient<ICustomerEmailService, CustomerEmailService>();
+
+var mailSettings = builder.Configuration.GetSection(nameof(MailSettings)).Get<MailSettings>();
+builder.Services.AddSingleton(mailSettings);
 
 var app = builder.Build();
 

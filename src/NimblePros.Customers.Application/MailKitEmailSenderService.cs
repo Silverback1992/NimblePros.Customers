@@ -7,11 +7,18 @@ namespace NimblePros.Customers.Application;
 
 public class MailKitEmailSenderService : IEmailSenderService
 {
+    private readonly MailSettings _mailSettings;
+
+    public MailKitEmailSenderService(MailSettings mailSettings)
+    {
+        _mailSettings = mailSettings;
+    }
+
     public async Task SendEmailAsync(MessageDetails messageDetails)
     {
         using var client = new SmtpClient();
 
-        await client.ConnectAsync("localhost", 25, false);
+        await client.ConnectAsync(_mailSettings.Server, _mailSettings.Port, false);
 
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(messageDetails.From, messageDetails.From));
